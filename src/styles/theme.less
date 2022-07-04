@@ -1,8 +1,17 @@
 // NavBar里less变量, 整个项目的NavBar组件都会受到影响,
 // 如果想要局部修改，请使用覆盖类名的方式
-@nav-bar-background-color: #0e85ff;
-@nav-bar-title-text-color: #fff;
-@nav-bar-icon-color:#fff;
+
+@mainColor:#0e85ff;
+@white:#fff;
+
+
+@nav-bar-background-color: @mainColor;
+@nav-bar-title-text-color: @white;
+@nav-bar-icon-color:@white;
 
 // tab 标签页
-@tabs-bottom-bar-color:#0e85ff;
+@tabs-bottom-bar-color:@mainColor;
+
+// search
+@search-background-color:@mainColor;
+@search-action-text-color:@white;

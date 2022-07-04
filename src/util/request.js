@@ -5,8 +5,8 @@ import { getToken } from '@/util/token'
 
 // 创建axios的实例
 const axios = axiosFn.create({
-  baseURL: 'http://toutiao.itheima.net',
-  // baseURL: 'http://geek.itheima.net',
+  // baseURL: 'http://toutiao.itheima.net',
+  baseURL: 'http://geek.itheima.net',
   timeout: 2000 // 20秒超时时间(请求20秒无响应，直接判断超时)
 })
 

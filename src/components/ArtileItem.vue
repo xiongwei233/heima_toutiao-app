@@ -12,7 +12,11 @@
             width="28.8vw"
             height="17.6vw"
             :src="arrChildren.cover.images[0]"
-          />
+          >
+            <template v-slot:loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
         </div>
         <!-- 三图 -->
         <div class="cell-images2" v-if="arrChildren.cover.type > 1">
@@ -23,7 +27,11 @@
             v-for="(img,index) in arrChildren.cover.images"
             :key="index"
             :src="img"
-          />
+          >
+            <template v-slot:loading>
+              <van-loading type="spinner" size="20" />
+            </template>
+          </van-image>
         </div>
       </template>
 
@@ -34,7 +42,7 @@
             <span>{{arrChildren.comm_count}} 评论</span>
             <span>{{fromatTime(arrChildren.pubdate)}}</span>
           </div>
-          <van-icon name="cross" @click="isShow = true" />
+          <van-icon name="cross" @click.stop="isShow = true" v-if="isRemove" />
         </div>
       </template>
     </van-cell>
@@ -56,7 +64,12 @@ import { firstActions, secondActions } from '@/api/report'
 export default {
   name: 'ArtileItem',
   props: {
-    arrChildren: Object
+    arrChildren: Object,
+    // 控制删除按钮
+    isRemove: {
+      type: Boolean,
+      default: true
+    }
   },
   data () {
     return {

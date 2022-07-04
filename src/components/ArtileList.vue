@@ -15,6 +15,7 @@
           :key="arr.art_id"
           :arrChildren="arr"
           @reports="reportsFn"
+          @click.native="itemClickFn(arr.art_id)"
         ></artile-item>
       </van-list>
     </van-pull-refresh>
@@ -117,6 +118,10 @@ export default {
         Notify({ type: 'success', message: '举报成功' })
       } catch (err) {
       }
+    },
+    // 点击新闻
+    itemClickFn (id) {
+      this.$router.push({ path: `/detail?art_id=${id}` })
     }
   }
 }

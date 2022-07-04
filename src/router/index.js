@@ -40,6 +40,24 @@ const routes = [
         component: () => import('@/views/user')
       }
     ]
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import('@/views/search')
+  },
+  {
+    path: '/search_result/:searchValue',
+    name: 'SearchResult',
+    component: () => import('@/views/search/SearchResult')
+  },
+  {
+    path: '/detail',
+    name: 'Detail',
+    component: () => import('@/views/artileDetail')
   }
 ]
 

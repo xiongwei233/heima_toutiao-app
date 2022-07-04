@@ -18,7 +18,11 @@ import {
   Popup,
   Grid,
   GridItem,
-  Tag
+  Tag,
+  Search,
+  Loading,
+  Divider,
+  Badge
 } from 'vant'
 
 Vue.use(Button)
@@ -41,3 +45,7 @@ Vue.use(Popup)
 Vue.use(Grid)
 Vue.use(GridItem)
 Vue.use(Tag)
+Vue.use(Search)
+Vue.use(Loading)
+Vue.use(Divider)
+Vue.use(Badge)

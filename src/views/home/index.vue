@@ -6,12 +6,19 @@
         <img class="logo" src="@/assets/toutiao_logo.png" />
       </template>
       <template #right>
-        <van-icon name="search" size="4.8vw" color="#fff" />
+        <van-icon name="search" size="4.8vw" color="#fff" @click="moveSearch" />
       </template>
     </van-nav-bar>
 
     <!-- tab标签 -->
-    <van-tabs v-model="channelId" animated @change="changeChangeFn">
+    <van-tabs
+      v-model="channelId"
+      duration="0"
+      animated
+      @change="changeChangeFn"
+      sticky
+      offset-top="12.266667vw"
+    >
       <van-tab
         v-for="channel in channelsList"
         :name="channel.id"
@@ -21,7 +28,9 @@
         <artile-list :channelId="channelId"></artile-list>
       </van-tab>
     </van-tabs>
+
     <van-icon name="plus" class="pushClass" @click="addchannel" />
+
     <van-popup class="popupClass" v-model="isShow">
       <channel-edit
         :channel="channelsList"
@@ -136,6 +145,10 @@ export default {
         // 当我删除频道失败，那么就重新获取频道数据，重置掉旧数据
         this.getChannelsList()
       }
+    },
+    // 搜索图标
+    moveSearch () {
+      this.$router.push('/search')
     }
   },
   computed: {
@@ -223,6 +236,7 @@ export default {
   padding: 0 8px;
   background-color: #fff;
   display: block;
+  z-index: 120;
 }
 /deep/.van-tabs__nav {
   padding-right: 32px;
