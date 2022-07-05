@@ -22,7 +22,10 @@ import {
   Search,
   Loading,
   Divider,
-  Badge
+  Badge,
+  CellGroup,
+  Dialog,
+  DatetimePicker
 } from 'vant'
 
 Vue.use(Button)
@@ -49,3 +52,6 @@ Vue.use(Search)
 Vue.use(Loading)
 Vue.use(Divider)
 Vue.use(Badge)
+Vue.use(CellGroup)
+Vue.use(Dialog)
+Vue.use(DatetimePicker)

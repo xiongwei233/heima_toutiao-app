@@ -20,3 +20,8 @@ export const rimeAgo = (targetTime) => {
   const b = dayjs(targetTime).from(a)
   return b
 }
+
+// 对时间对象进行格式化
+export const dataReset = (dataObj) => {
+  return dayjs(dataObj).format('YYYY-MM-DD')
+}
