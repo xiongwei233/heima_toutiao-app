@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
+import { getStorage } from '@/util/storage'
 Vue.use(VueRouter)
 
 const routes = [
@@ -14,7 +14,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('@/views/login')
+    component: () => import(/* webpackChunkName: "login" */ '@/views/login')
   },
   {
     path: '/layout',
@@ -22,7 +22,7 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('@/views/layout'),
+    component: () => import(/* webpackChunkName: "layout" */ '@/views/layout'),
     // redirect: '/layout/home',
     children: [
       {
@@ -32,12 +32,15 @@ const routes = [
       {
         path: 'home',
         name: 'Home',
-        component: () => import('@/views/home')
+        component: () => import(/* webpackChunkName: "home" */ '@/views/home'),
+        meta: {
+          scrollTValue: 0 // 保存首页离开时，滚动条的位置
+        }
       },
       {
         path: 'user',
         name: 'User',
-        component: () => import('@/views/user')
+        component: () => import(/* webpackChunkName: "user" */ '@/views/user')
       }
     ]
   },
@@ -47,22 +50,32 @@ const routes = [
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
-    component: () => import('@/views/search')
+    component: () => import(/* webpackChunkName: "search" */ '@/views/search')
   },
   {
     path: '/search_result/:searchValue',
     name: 'SearchResult',
-    component: () => import('@/views/search/SearchResult')
+    component: () =>
+      import(
+        /* webpackChunkName: "SearchResult" */ '@/views/search/SearchResult'
+      )
   },
   {
     path: '/detail',
     name: 'Detail',
-    component: () => import('@/views/artileDetail')
+    component: () =>
+      import(/* webpackChunkName: "artileDetail" */ '@/views/artileDetail')
   },
   {
     path: '/user_edit',
-    name: 'userEdit',
-    component: () => import('@/views/user/userEdit')
+    name: 'UserEdit',
+    component: () =>
+      import(/* webpackChunkName: "userEdit" */ '@/views/user/userEdit')
+  },
+  {
+    path: '/chat',
+    name: 'Chat',
+    component: () => import(/* webpackChunkName: "chat" */ '@/views/chat')
   }
 ]
 
@@ -70,5 +83,15 @@ const router = new VueRouter({
   routes,
   mode: 'history'
 })
-
+// 路由-全局前置守卫（在路由发生真正跳转之前，执行此函数
+// 此函数可以决定路由是否跳转/取消/强制中断切换到别的路由
+router.beforeEach((to, from, next) => {
+  // 有token, 不能去登录页
+  // 无token, 需要用户"权限"的才需要去登录页
+  if (getStorage('geek-itheima')?.length >= 0 && to.path === '/login') {
+    next('/layout/home') // 跳转到home
+  } else {
+    next() // 其他情况放行
+  }
+})
 export default router

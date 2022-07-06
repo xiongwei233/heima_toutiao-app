@@ -64,10 +64,14 @@ export default {
       allChannelsList: [],
       // 内容区域的数据
       artileList: [],
-      isShow: false
+      isShow: false,
+
+      // 设置每个频道的滚动位置
+      channelScrollTObj: {}
+      // 值{频道id:滚动位置, 频道id2:滚动位置2,}
     }
   },
-  created () {
+  async created () {
     this.getChannelsList()
   },
   methods: {
@@ -87,8 +91,14 @@ export default {
         this.$toast.fail('获取用户的频道失败')
       }
     },
-    // 文章列表
+    // 文章频道列表channge事件
     async changeChangeFn (name) {
+      this.$nextTick(() => {
+        // 频道切换，滚到到 每个频道保存的滚动位置，
+        document.documentElement.scrollTop = this.channelScrollTObj[ this.channelId ]
+        console.log(this.channelScrollTObj[ this.channelId ])
+      })
+
       console.log('name的值' + name)
       try {
         const res2 = await getUsersArticlesAPI({
@@ -149,6 +159,14 @@ export default {
     // 搜索图标
     moveSearch () {
       this.$router.push('/search')
+    },
+    // 监听网页的滚动事件
+    scrollFn () {
+      // 把把页面内容卷入的距离，保存在路由设置的值上
+      this.$route.meta.scrollTValue = document.documentElement.scrollTop
+      // 保存每个频道的滚动位置
+      this.channelScrollTObj[ this.channelId ] = document.documentElement.scrollTop
+      console.log(this.channelScrollTObj)
     }
   },
   computed: {
@@ -200,6 +218,19 @@ export default {
         )
       )
     }
+  },
+  // 页面打开
+  activated () {
+    console.log(this.$route)
+    // 监听 scroll 滚动事件
+    window.addEventListener('scroll', this.scrollFn)
+    // 设置滚动条的位置
+    document.documentElement.scrollTop = this.$route.meta.scrollTValue
+  },
+  // 页面刷新
+  deactivated () {
+    // 销毁事件，提高性能
+    window.removeEventListener('scroll', this.scrollFn)
   },
   components: {
     artileList,

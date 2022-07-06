@@ -25,7 +25,8 @@ import {
   Badge,
   CellGroup,
   Dialog,
-  DatetimePicker
+  DatetimePicker,
+  Lazyload
 } from 'vant'
 
 Vue.use(Button)
@@ -55,3 +56,5 @@ Vue.use(Badge)
 Vue.use(CellGroup)
 Vue.use(Dialog)
 Vue.use(DatetimePicker)
+Vue.use(Loading)
+Vue.use(Lazyload)

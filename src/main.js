@@ -14,6 +14,9 @@ import 'normalize.css'
 // 请求
 import '@/api'
 
+// 代码高亮
+import 'highlight.js/styles/default.css'
+
 // 自定义input聚焦指令
 import directiveFocus from '@/util/directives'
 // 执行目标对象里的install方法并传入Vue类
@@ -27,3 +30,10 @@ new Vue({
   store,
   render: (h) => h(App)
 }).$mount('#app')
+
+// process是Node环境全部变量, 运行时根据敲击的命令不同, 脚手架会取环境变量给env添加属性和值
+if (process.env.NODE_ENV !== 'development') {
+  console.log = function () {}
+  console.error = function () {}
+  console.dir = function () {}
+}

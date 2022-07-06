@@ -38,7 +38,7 @@
 <script>
 import { userLoginAPI } from '@/api'
 import { Notify } from 'vant'
-import { setToken } from '@/util/token'
+import { setStorage } from '@/util/storage'
 export default {
   name: 'LoginItem',
   data () {
@@ -57,11 +57,16 @@ export default {
       this.isLoading = true
       try {
         const res = await userLoginAPI(this.user)
-        setToken(res.data.data.token) // 存入token
+        setStorage('geek-itheima', res.data.data.token) // 存入token
+        // 保存refresh_token，这个是用来获取 新的token的
+        setStorage('refresh_token', res.data.data.refresh_token)
+
         console.log(res.data.data)
         Notify({ type: 'success', message: '登录成功' })
         // this.$router.push({ name: 'Layout' })
-        this.$router.replace({ name: 'Home' })
+
+        // 如果路由路径上有参数，就直接跳转，如果没有参数就跳转到首页
+        this.$router.replace({ path: this.$route.query.path || '/layout/home' })
       } catch (err) {
         Notify({ type: 'danger', message: '账号或密码输入错误，请重试' })
       }

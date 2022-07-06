@@ -7,7 +7,12 @@
     <van-cell-group class="action-card">
       <van-cell title="头像" is-link center>
         <template #default>
-          <van-image round class="avatar" :src="userList.photo" @click="$refs.iptFile.click()" />
+          <van-image
+            round
+            class="avatar"
+            :src="$store.state.userPhoto"
+            @click="$refs.iptFile.click()"
+          />
           <input type="file" ref="iptFile" v-show="false" accept="image/*" @change="onFileChange" />
         </template>
       </van-cell>
@@ -52,6 +57,7 @@
 <script>
 import { getUserProfileApi, editPhotoApi, editUserInfoApi } from '@/api'
 import { dataReset } from '@/util/date'
+import { mapMutations } from 'vuex'
 export default {
   name: 'UserEdit',
   data () {
@@ -67,6 +73,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations([ 'SET_USERPHOTO' ]),
     async userListFn () {
       const res = await getUserProfileApi()
       this.userList = res.data.data
@@ -87,6 +94,7 @@ export default {
       const res = await editPhotoApi(thefile)
       // 图片更新
       this.userList.photo = res.data.data.photo
+      this.SET_USERPHOTO(res.data.data.photo)
       console.log(res.data.data.photo)
     },
     // 姓名的点击事件

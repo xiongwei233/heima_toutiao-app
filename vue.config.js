@@ -26,4 +26,13 @@ module.exports = defineConfig({
       }
     }
   }
+  // publicPath: './'
 })
+/*
+问题：打开的index.htm1网页空自，控制台全是404错误
+原因：打包时，webpack在index.html中引入其他的打包文件路径全是/服务器根路径请求
+    运行时是在5500端口下运行，服务器根目录没有css和js文件夹，而是在index.html文件的隔壁(相对路径)
+解决：让webpack打包时，引入其他文件要以./开头，而不能以/开头，
+    在vue.config.js配置项目中，加入pubIicPath：'./'重新打包
+    打包后观察index.htm1中 其实./被省略了
+*/

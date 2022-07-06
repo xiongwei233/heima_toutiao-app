@@ -1,6 +1,8 @@
   <template>
   <div>
-    <router-view></router-view>
+    <keep-alive :exclude="[ 'LoginItem', 'searchContent', 'SearchResult', 'artileDetail']">
+      <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

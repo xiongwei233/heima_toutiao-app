@@ -10,6 +10,7 @@
             v-if="arrChildren.cover.type===1"
             fit="cover"
             width="28.8vw"
+            lazy-load
             height="17.6vw"
             :src="arrChildren.cover.images[0]"
           >
@@ -23,6 +24,7 @@
           <van-image
             fit="cover"
             width="28.8vw"
+            lazy-load
             height="17.6vw"
             v-for="(img,index) in arrChildren.cover.images"
             :key="index"

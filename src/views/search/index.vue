@@ -51,7 +51,7 @@
 
 <script>
 import { searchSuggestionApi } from '@/api'
-
+import { setStorage, getStorage } from '@/util/storage'
 export default {
   name: 'searchContent',
   data () {
@@ -61,7 +61,7 @@ export default {
       // 搜索得到的内容
       searchSuggestionList: [],
       // 搜索历史
-      searchHistory: JSON.parse(localStorage.getItem('his')) || [] // 搜索历史
+      searchHistory: JSON.parse(getStorage('his')) || [] // 搜索历史
     }
   },
   created () {
@@ -152,7 +152,7 @@ export default {
         const theSet = new Set(this.searchHistory)
         // set类型对象 转成 Array数组类型
         const arr = Array.from(theSet)
-        localStorage.setItem('his', JSON.stringify(arr))
+        setStorage('his', JSON.stringify(arr))
       }
     }
   },

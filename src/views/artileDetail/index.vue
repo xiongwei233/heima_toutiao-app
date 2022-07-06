@@ -2,69 +2,77 @@
   <div>
     <!-- Header 区域 -->
     <van-nav-bar fixed title="文章详情" left-arrow @click-left="$router.back()" />
+    <!-- loading -->
+    <van-loading color="#0094ff" v-if="Object.keys(newDetailsList).length===0">加载中...</van-loading>
+    <!-- 文章内容 -->
+    <div v-else>
+      <!-- 文章信息区域 -->
+      <div class="article-container">
+        <!-- 文章标题 -->
+        <h1 class="art-title">{{newDetailsList.title}}</h1>
 
-    <!-- 文章信息区域 -->
-    <div class="article-container">
-      <!-- 文章标题 -->
-      <h1 class="art-title">{{newDetailsList.title}}</h1>
+        <!-- 用户信息 -->
+        <van-cell
+          center
+          :title="newDetailsList.aut_name"
+          :label="dateReset(newDetailsList.pubdate)"
+        >
+          <template #icon>
+            <img :src="newDetailsList.aut_photo" alt class="avatar" />
+          </template>
+          <template #default>
+            <div>
+              <van-button
+                @click="followedFn(true)"
+                v-if="newDetailsList.is_followed"
+                type="info"
+                size="mini"
+              >已关注</van-button>
+              <van-button
+                v-else
+                @click="followedFn(false)"
+                icon="plus"
+                type="info"
+                size="mini"
+                plain
+              >关注</van-button>
+            </div>
+          </template>
+        </van-cell>
 
-      <!-- 用户信息 -->
-      <van-cell center :title="newDetailsList.aut_name" :label="dateReset(newDetailsList.pubdate)">
-        <template #icon>
-          <img :src="newDetailsList.aut_photo" alt class="avatar" />
-        </template>
-        <template #default>
-          <div>
-            <van-button
-              @click="followedFn(true)"
-              v-if="newDetailsList.is_followed"
-              type="info"
-              size="mini"
-            >已关注</van-button>
-            <van-button
-              v-else
-              @click="followedFn(false)"
-              icon="plus"
-              type="info"
-              size="mini"
-              plain
-            >关注</van-button>
-          </div>
-        </template>
-      </van-cell>
+        <!-- 分割线 -->
+        <van-divider></van-divider>
 
-      <!-- 分割线 -->
-      <van-divider></van-divider>
+        <!-- 文章内容 -->
+        <div class="art-content" v-html="newDetailsList.content"></div>
 
-      <!-- 文章内容 -->
-      <div class="art-content" v-html="newDetailsList.content"></div>
+        <!-- 分割线 -->
+        <van-divider>End</van-divider>
 
-      <!-- 分割线 -->
-      <van-divider>End</van-divider>
-
-      <!-- 点赞 -->
-      <div class="like-box">
-        <!-- 用户对文章的态度, -1: 无态度，0-不喜欢，1-点赞 -->
-        <van-button
-          v-if="newDetailsList.attitude===1"
-          icon="good-job"
-          type="danger"
-          size="small"
-          @click="attitudeFn(true)"
-        >已点赞</van-button>
-        <van-button
-          v-else
-          @click="attitudeFn(false)"
-          icon="good-job-o"
-          type="danger"
-          plain
-          size="small"
-        >点赞</van-button>
+        <!-- 点赞 -->
+        <div class="like-box">
+          <!-- 用户对文章的态度, -1: 无态度，0-不喜欢，1-点赞 -->
+          <van-button
+            v-if="newDetailsList.attitude===1"
+            icon="good-job"
+            type="danger"
+            size="small"
+            @click="attitudeFn(true)"
+          >已点赞</van-button>
+          <van-button
+            v-else
+            @click="attitudeFn(false)"
+            icon="good-job-o"
+            type="danger"
+            plain
+            size="small"
+          >点赞</van-button>
+        </div>
       </div>
-    </div>
 
-    <!-- 文章评论 -->
-    <comment-list></comment-list>
+      <!-- 文章评论 -->
+      <comment-list></comment-list>
+    </div>
   </div>
 </template>
 
@@ -90,7 +98,6 @@ export default {
         article_id: this.$route.query.art_id
       })
       this.newDetailsList = res.data.data
-      console.log(this.newDetailsList)
     },
     // 关注/已关注
     async followedFn (boolean) {
@@ -171,5 +178,9 @@ export default {
 .like-box {
   display: flex;
   justify-content: center;
+}
+.van-loading {
+  text-align: center;
+  padding-top: 50px;
 }
 </style>
