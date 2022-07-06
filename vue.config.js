@@ -25,8 +25,8 @@ module.exports = defineConfig({
         }
       }
     }
-  }
-  // publicPath: './'
+  },
+  publicPath: './'
 })
 /*
 问题：打开的index.htm1网页空自，控制台全是404错误

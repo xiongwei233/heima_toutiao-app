@@ -81,7 +81,7 @@ const routes = [
 
 const router = new VueRouter({
   routes,
-  mode: 'history'
+  mode: 'hash'
 })
 // 路由-全局前置守卫（在路由发生真正跳转之前，执行此函数
 // 此函数可以决定路由是否跳转/取消/强制中断切换到别的路由
